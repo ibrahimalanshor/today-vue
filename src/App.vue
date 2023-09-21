@@ -5,6 +5,7 @@ import {
   PlainVueText,
   PlainVueCheckbox,
   PlainVueButton,
+  PlainVueInput,
 } from 'plain-vue';
 import {
   TrashIcon,
@@ -91,6 +92,14 @@ const todos = [
                     <trash-icon class="w-4 h-4 text-gray-400" />
                   </plain-vue-button>
                 </div>
+              </div>
+            </template>
+            <template #append-item>
+              <div>
+                <plain-vue-input
+                  input-class="py-2 px-3 w-full text-sm border-0 rounded-md focus:ring-0 placeholder:text-gray-400 text-gray-700"
+                  placeholder="Do something"
+                />
               </div>
             </template>
           </plain-vue-list>
