@@ -5,21 +5,21 @@ import { PropType, computed } from 'vue';
 import { Todo } from 'src/modules/todo/todo.entity';
 
 const props = defineProps({
-  todo: {
+  modelValue: {
     type: Object as PropType<Todo>,
     required: true,
   },
 });
 const emit = defineEmits<{
-  done: [value: boolean];
+  'update:modelValue': [value: Todo];
 }>();
 
-const isDone = computed({
+const todo = computed<Todo>({
   get() {
-    return props.todo.isDone;
+    return props.modelValue;
   },
   set(value) {
-    emit('done', value);
+    emit('update:modelValue', value);
   },
 });
 </script>
@@ -30,7 +30,7 @@ const isDone = computed({
       <plain-vue-checkbox
         wrapper-class="flex items-center"
         checkbox-class="w-4 h-4 rounded border-gray-300 focus:ring-gray-900 text-gray-900"
-        v-model="isDone"
+        v-model="todo.isDone"
       />
       <plain-vue-text
         :class="['text-sm text-gray-700', todo.isDone && 'line-through']"

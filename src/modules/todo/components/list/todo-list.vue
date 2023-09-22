@@ -7,10 +7,27 @@ import {
 } from 'plain-vue';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import TodoListItem from 'src//modules/todo/components/list/todo-list-item.vue';
-import { PropType } from 'vue';
-import { TodoFilter } from 'src/modules/todo/todo.entity';
+import { PropType, ref } from 'vue';
+import { Todo, TodoFilter } from 'src/modules/todo/todo.entity';
 
-const todos = [
+defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  withCreate: {
+    type: Boolean,
+    default: false,
+  },
+  filter: {
+    type: Object as PropType<TodoFilter>,
+    default: () => ({
+      isDone: false,
+    }),
+  },
+});
+
+const todos = ref<Todo[]>([
   {
     id: 1,
     name: 'Tuku HP',
@@ -36,24 +53,7 @@ const todos = [
     name: 'Bales WA',
     isDone: true,
   },
-];
-
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  withCreate: {
-    type: Boolean,
-    default: false,
-  },
-  filter: {
-    type: Object as PropType<TodoFilter>,
-    default: () => ({
-      isDone: false,
-    }),
-  },
-});
+]);
 </script>
 
 <template>
@@ -66,12 +66,11 @@ defineProps({
         <plus-icon class="w-4 h-4 text-gray-500" />
       </plain-vue-button>
     </div>
-    <plain-vue-list
-      wrapper-class="border divide-y rounded-md"
-      :items="todos.filter((todo) => todo.isDone === filter.isDone)"
-    >
-      <template #item="{ item }">
-        <todo-list-item :todo="item" />
+    <plain-vue-list wrapper-class="border divide-y rounded-md">
+      <template #list>
+        <template v-for="(todo, index) in todos" :key="todo.id">
+          <todo-list-item v-model="todos[index]" />
+        </template>
       </template>
       <template v-if="withCreate" #append-item>
         <div>
