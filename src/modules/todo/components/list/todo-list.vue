@@ -8,7 +8,8 @@ import {
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import TodoListItem from 'src//modules/todo/components/list/todo-list-item.vue';
 import { PropType, ref } from 'vue';
-import { Todo, TodoFilter } from 'src/modules/todo/todo.entity';
+import { TodoFilter } from 'src/modules/todo/todo.entity';
+import { useTodoStore } from 'src/modules/todo/stores/store/todo.store';
 
 defineProps({
   title: {
@@ -27,33 +28,8 @@ defineProps({
   },
 });
 
-const todos = ref<Todo[]>([
-  {
-    id: 1,
-    name: 'Tuku HP',
-    isDone: false,
-  },
-  {
-    id: 2,
-    name: 'Tuku Kartu Perdana',
-    isDone: false,
-  },
-  {
-    id: 3,
-    name: 'Ganti Oli',
-    isDone: false,
-  },
-  {
-    id: 4,
-    name: 'Tuku Bakso',
-    isDone: false,
-  },
-  {
-    id: 5,
-    name: 'Bales WA',
-    isDone: true,
-  },
-]);
+const todoStore = useTodoStore();
+
 const visibleCreateInput = ref(false);
 
 function handleCreate() {
@@ -73,8 +49,8 @@ function handleCreate() {
     </div>
     <plain-vue-list wrapper-class="border divide-y rounded-md">
       <template #list>
-        <template v-for="(todo, index) in todos" :key="todo.id">
-          <todo-list-item v-model="todos[index]" />
+        <template v-for="(todo, index) in todoStore.todos" :key="todo.id">
+          <todo-list-item v-model="todoStore.todos[index]" />
         </template>
       </template>
       <template v-if="withCreate && visibleCreateInput" #append-item>
