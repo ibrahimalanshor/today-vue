@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import {
-  PlainVueList,
-  PlainVueText,
-  PlainVueButton,
-  PlainVueInput,
-} from 'plain-vue';
+import { PlainVueList, PlainVueText, PlainVueButton } from 'plain-vue';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import TodoListItem from 'src//modules/todo/components/list/todo-list-item.vue';
+import TodoItemCreate from './todo-item-create.vue';
 import { PropType, ref } from 'vue';
 import { TodoFilter } from 'src/modules/todo/todo.entity';
 import { useTodoStore } from 'src/modules/todo/stores/store/todo.store';
@@ -54,12 +50,7 @@ function handleCreate() {
         </template>
       </template>
       <template v-if="withCreate && visibleCreateInput" #append-item>
-        <div>
-          <plain-vue-input
-            input-class="py-2 px-3 w-full text-sm border-0 rounded-md focus:ring-0 placeholder:text-gray-400 text-gray-700"
-            placeholder="Do something"
-          />
-        </div>
+        <todo-item-create v-on:created="visibleCreateInput = false" />
       </template>
     </plain-vue-list>
   </div>
