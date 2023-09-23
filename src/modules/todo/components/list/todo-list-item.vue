@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { PlainVueText, PlainVueCheckbox, PlainVueButton } from 'plain-vue';
+import { PlainVueText, PlainVueButton } from 'plain-vue';
 import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
+import BaseCheckbox from 'src/components/base/base-checkbox.vue';
 import { PropType, computed } from 'vue';
 import { Todo } from 'src/modules/todo/todo.interface';
 
@@ -27,11 +28,7 @@ const todo = computed<Todo>({
 <template>
   <div class="py-2 px-3 flex items-center gap-x-2 group hover:bg-gray-50">
     <div class="flex items-center gap-x-2">
-      <plain-vue-checkbox
-        wrapper-class="flex items-center"
-        checkbox-class="w-4 h-4 rounded border-gray-300 focus:ring-gray-900 text-gray-900"
-        v-model="todo.isDone"
-      />
+      <base-checkbox v-model="todo.isDone" />
       <plain-vue-text
         :class="['text-sm text-gray-700', todo.isDone && 'line-through']"
         >{{ todo.name }}</plain-vue-text

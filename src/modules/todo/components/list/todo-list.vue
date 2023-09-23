@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { PlainVueList, PlainVueText } from 'plain-vue';
+import BaseText from 'src/components/base/base-text.vue';
 import TodoListItem from 'src//modules/todo/components/list/todo-list-item.vue';
 import TodoItemCreate from './todo-item-create.vue';
 import { PropType, computed } from 'vue';
@@ -36,9 +37,7 @@ const todos = computed(() => {
 
 <template>
   <div v-if="todos.length || !hideWhenEmpty" class="space-y-1">
-    <plain-vue-text base-class="text-sm font-semibold text-gray-900">{{
-      title
-    }}</plain-vue-text>
+    <base-text class="font-semibold" color="black">{{ title }}</base-text>
     <plain-vue-list wrapper-class="border divide-y rounded-md">
       <template #list>
         <template v-for="(todo, index) in todos" :key="todo.id">
