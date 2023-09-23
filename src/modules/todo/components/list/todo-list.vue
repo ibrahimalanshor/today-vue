@@ -3,8 +3,8 @@ import { PlainVueList, PlainVueText } from 'plain-vue';
 import TodoListItem from 'src//modules/todo/components/list/todo-list-item.vue';
 import TodoItemCreate from './todo-item-create.vue';
 import { PropType, computed } from 'vue';
-import { TodoFilter } from 'src/modules/todo/todo.entity';
-import { useTodoStore } from 'src/modules/todo/stores/store/todo.store';
+import { TodoFilter } from 'src/modules/todo/todo.interface';
+import { useTodoStore } from 'src/modules/todo/stores/todo.store';
 
 const props = defineProps({
   title: {

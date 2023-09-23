@@ -2,7 +2,7 @@
 import { PlainVueText, PlainVueCheckbox, PlainVueButton } from 'plain-vue';
 import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
 import { PropType, computed } from 'vue';
-import { Todo } from 'src/modules/todo/todo.entity';
+import { Todo } from 'src/modules/todo/todo.interface';
 
 const props = defineProps({
   modelValue: {

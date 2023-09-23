@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { Todo, TodoFilter } from 'src/modules/todo/todo.entity';
+import { Todo, TodoFilter } from 'src/modules/todo/todo.interface';
 
 export const useTodoStore = defineStore('todo', () => {
   const todos = ref<Todo[]>([]);
 
-  function getCreationId(): Todo['id'] {
-    return todos.value.length ? todos.value[todos.value.length - 1].id + 1 : 1;
+  function getCurrentId(): Todo['id'] {
+    return todos.value.length ? todos.value[todos.value.length - 1].id : 0;
   }
 
   function getAll(filter: TodoFilter): Todo[] {
@@ -14,7 +14,7 @@ export const useTodoStore = defineStore('todo', () => {
   }
   function create(name: Todo['name']): Todo {
     const length = todos.value.push({
-      id: getCreationId(),
+      id: getCurrentId() + 1,
       name,
       isDone: false,
     });
