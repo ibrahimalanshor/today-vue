@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { PlainVueTitle, PlainVueText } from 'plain-vue';
 import AppSidebar from 'src/components/partials/app/app-sidebar.vue';
+import AppToast from 'src/components/partials/app/app-toast.vue';
 import TodoList from 'src//modules/todo/components/list/todo-list.vue';
 </script>
 
 <template>
+  <app-toast />
   <div class="max-w-2xl mx-auto py-8 grid grid-cols-12 gap-x-8">
     <div class="col-span-4">
       <app-sidebar />
