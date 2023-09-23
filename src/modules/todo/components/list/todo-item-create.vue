@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { PlusIcon } from '@heroicons/vue/24/outline';
 import { PlainVueInput } from 'plain-vue';
 import { reactive } from 'vue';
 import { useTodoStore } from 'src/modules/todo/stores/store/todo.store';
@@ -29,9 +30,13 @@ function handleStore() {
 </script>
 
 <template>
-  <form v-on:submit.prevent="handleStore">
+  <form
+    class="flex items-center px-3 gap-x-2"
+    v-on:submit.prevent="handleStore"
+  >
+    <plus-icon class="w-4 h-4 text-gray-400" />
     <plain-vue-input
-      input-class="py-2 px-3 w-full text-sm border-0 rounded-md focus:ring-0 placeholder:text-gray-400 text-gray-700"
+      input-class="py-2 px-0 w-full text-sm border-0 rounded-md focus:ring-0 placeholder:text-gray-400 text-gray-700"
       placeholder="Do something"
       v-model="form.name"
     />

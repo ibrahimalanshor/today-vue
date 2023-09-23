@@ -21,7 +21,7 @@ import TodoList from 'src//modules/todo/components/list/todo-list.vue';
           >
         </div>
         <todo-list title="Todo" :filter="{ isDone: false }" with-create />
-        <todo-list title="Done" :filter="{ isDone: true }" />
+        <todo-list title="Done" :filter="{ isDone: true }" hide-when-empty />
       </div>
     </div>
   </div>
