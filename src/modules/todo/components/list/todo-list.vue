@@ -3,11 +3,11 @@ import { PlainVueList, PlainVueText, PlainVueButton } from 'plain-vue';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import TodoListItem from 'src//modules/todo/components/list/todo-list-item.vue';
 import TodoItemCreate from './todo-item-create.vue';
-import { PropType, ref } from 'vue';
+import { PropType, computed, ref } from 'vue';
 import { TodoFilter } from 'src/modules/todo/todo.entity';
 import { useTodoStore } from 'src/modules/todo/stores/store/todo.store';
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -28,6 +28,10 @@ const todoStore = useTodoStore();
 
 const visibleCreateInput = ref(false);
 
+const todos = computed(() => {
+  return todoStore.getAll(props.filter);
+});
+
 function handleCreate() {
   visibleCreateInput.value = true;
 }
@@ -45,8 +49,8 @@ function handleCreate() {
     </div>
     <plain-vue-list wrapper-class="border divide-y rounded-md">
       <template #list>
-        <template v-for="(todo, index) in todoStore.todos" :key="todo.id">
-          <todo-list-item v-model="todoStore.todos[index]" />
+        <template v-for="(todo, index) in todos" :key="todo.id">
+          <todo-list-item v-model="todos[index]" />
         </template>
       </template>
       <template v-if="withCreate && visibleCreateInput" #append-item>
