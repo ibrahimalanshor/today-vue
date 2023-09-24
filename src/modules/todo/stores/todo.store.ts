@@ -21,6 +21,11 @@ export const useTodoStore = defineStore('todo', () => {
 
     return todos.value[length - 1];
   }
+  function remove(id: Todo['id']): void {
+    const index = todos.value.findIndex((todo) => todo.id === id);
 
-  return { todos, create, getAll };
+    todos.value.splice(index, 1);
+  }
+
+  return { todos, create, getAll, remove };
 });

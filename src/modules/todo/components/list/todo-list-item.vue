@@ -27,9 +27,11 @@ const todo = computed<Todo>({
 });
 
 const isEditing = ref(false);
+const isDeleting = ref(false);
 
 async function handleEdit() {
   isEditing.value = true;
+  isDeleting.value = false;
 }
 </script>
 
@@ -53,11 +55,17 @@ async function handleEdit() {
         >{{ todo.name }}</plain-vue-text
       >
     </div>
-    <div v-if="!isEditing" class="items-center gap-x-2 flex">
+    <div
+      v-if="!isEditing"
+      :class="[
+        'gap-x-2 items-center',
+        isDeleting ? 'flex' : 'hidden group-hover:flex',
+      ]"
+    >
       <plain-vue-button v-on:click="handleEdit">
         <pencil-square-icon class="w-4 h-4 text-gray-400" />
       </plain-vue-button>
-      <todo-list-item-delete v-model="todo" />
+      <todo-list-item-delete v-model="todo" v-model:visible="isDeleting" />
     </div>
   </div>
 </template>
