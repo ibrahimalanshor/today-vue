@@ -2,10 +2,9 @@
 import { PlainVueText, PlainVueButton } from 'plain-vue';
 import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
 import BaseCheckbox from 'src/components/base/base-checkbox.vue';
-import TodoNameInput from './todo-name-input.vue';
-import { ComponentPublicInstance, PropType, computed, ref } from 'vue';
+import TodoListItemEdit from './todo-list-item-edit.vue';
+import { PropType, computed, ref } from 'vue';
 import { Todo } from 'src/modules/todo/todo.interface';
-import { nextTick } from 'vue';
 
 const props = defineProps({
   modelValue: {
@@ -27,16 +26,9 @@ const todo = computed<Todo>({
 });
 
 const isEditing = ref(false);
-const input = ref<{ input: ComponentPublicInstance }>();
 
 async function handleEdit() {
   isEditing.value = true;
-
-  await nextTick();
-
-  const inputElement = input.value?.input.$refs.input as HTMLInputElement;
-
-  inputElement.focus();
 }
 function handleUpdated() {
   isEditing.value = false;
@@ -52,9 +44,11 @@ function handleUpdated() {
   >
     <div class="flex items-center gap-x-2">
       <base-checkbox ref="check" v-model="todo.isDone" />
-      <form v-if="isEditing" v-on:submit.prevent="handleUpdated">
-        <todo-name-input ref="input" v-model="todo.name" />
-      </form>
+      <todo-list-item-edit
+        v-if="isEditing"
+        v-model="todo"
+        v-on:close="isEditing = false"
+      ></todo-list-item-edit>
       <plain-vue-text
         v-else
         :class="['text-sm text-gray-700', todo.isDone && 'line-through']"

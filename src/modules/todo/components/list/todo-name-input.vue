@@ -10,6 +10,7 @@ const props = defineProps({
 });
 const emit = defineEmits<{
   'update:modelValue': [value: string];
+  focusout: [];
 }>();
 
 const input = ref<ComponentPublicInstance>();
@@ -23,6 +24,10 @@ const value = computed({
   },
 });
 
+function handleFocusOut() {
+  emit('focusout');
+}
+
 defineExpose({ input });
 </script>
 
@@ -33,5 +38,6 @@ defineExpose({ input });
     input-class="p-0 w-full text-sm border-0 leading-0 bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-700 w-full"
     placeholder="Do something"
     v-model="value"
+    v-on:focusout="handleFocusOut"
   />
 </template>
