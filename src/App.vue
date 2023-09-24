@@ -1,30 +1,26 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import BaseTitle from 'src/components/base/base-title.vue';
+import BaseText from 'src/components/base/base-text.vue';
+import AppSidebar from 'src/components/partials/app/app-sidebar.vue';
+import AppToast from 'src/components/partials/app/app-toast.vue';
+import TodoList from 'src//modules/todo/components/list/todo-list.vue';
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <app-toast />
+  <div class="max-w-2xl mx-auto py-8 grid grid-cols-12 gap-x-8">
+    <div class="col-span-4">
+      <app-sidebar />
+    </div>
+    <div class="col-span-8">
+      <div class="space-y-4">
+        <div class="">
+          <base-title :level="6">Today</base-title>
+          <base-text>21 September 2023</base-text>
+        </div>
+        <todo-list title="Todo" :filter="{ isDone: false }" with-create />
+        <todo-list title="Done" :filter="{ isDone: true }" hide-when-empty />
+      </div>
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
