@@ -5,7 +5,8 @@ import { reactive } from 'vue';
 import { useTodoStore } from 'src/modules/todo/stores/todo.store';
 import { useToastStore } from 'src/modules/toast/stores/toast.store';
 import { Todo } from 'src/modules/todo/todo.interface';
-import joi, { ValidationError } from 'joi';
+import { TodoSchema } from 'src/modules/todo/schemas/todo.schema';
+import { useValidation } from 'src/composes/validation';
 
 const emit = defineEmits<{
   created: [todo: Todo];
@@ -13,6 +14,7 @@ const emit = defineEmits<{
 
 const todoStore = useTodoStore();
 const toastStore = useToastStore();
+const validation = useValidation(TodoSchema);
 
 const form = reactive<{
   name: Todo['name'];
@@ -24,20 +26,10 @@ function resetForm() {
   form.name = '';
 }
 async function validateForm() {
-  const schema = joi.object({
-    name: joi.string().required().messages({
-      'string.empty': 'Todo name cannot be empty',
-    }),
-  });
-
   try {
-    await schema.validateAsync(form);
+    await validation.validate(form);
   } catch (err) {
-    const message = (err as ValidationError).details.find(
-      (e) => e.path[0] === 'name',
-    )?.message;
-
-    toastStore.add({ message: message as string });
+    toastStore.add({ message: validation.getFirstErrorMessage('name') });
 
     throw err;
   }

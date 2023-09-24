@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { PlainVueButton } from 'plain-vue';
-import {
-  CheckIcon,
-  XMarkIcon,
-  TrashIcon,
-  PencilSquareIcon,
-} from '@heroicons/vue/24/outline';
+import { CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 import TodoNameInput from './todo-name-input.vue';
 import {
   ComponentPublicInstance,
@@ -16,6 +11,9 @@ import {
   ref,
 } from 'vue';
 import { Todo } from 'src/modules/todo/todo.interface';
+import { TodoSchema } from 'src/modules/todo/schemas/todo.schema';
+import { useValidation } from 'src/composes/validation';
+import { useToastStore } from 'src/modules/toast/stores/toast.store';
 
 const props = defineProps({
   modelValue: {
@@ -27,6 +25,9 @@ const emit = defineEmits<{
   'update:modelValue': [value: Todo];
   close: [];
 }>();
+
+const validation = useValidation(TodoSchema);
+const toastStore = useToastStore();
 
 const todo = computed<Todo>({
   get() {
@@ -42,13 +43,29 @@ const form = reactive<{ name: string }>({
   name: '',
 });
 
+async function validateForm() {
+  try {
+    await validation.validate(form);
+  } catch (err) {
+    toastStore.add({ message: validation.getFirstErrorMessage('name') });
+
+    throw err;
+  }
+}
+
 function handleCancel() {
   emit('close');
 }
-function handleConfirm() {
-  todo.value.name = form.name;
+async function handleConfirm() {
+  try {
+    await validateForm();
 
-  emit('close');
+    todo.value.name = form.name;
+
+    emit('close');
+  } catch (err) {
+    //
+  }
 }
 
 onMounted(() => {
