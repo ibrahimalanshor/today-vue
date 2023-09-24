@@ -3,6 +3,7 @@ import { PlainVueText, PlainVueButton } from 'plain-vue';
 import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
 import BaseCheckbox from 'src/components/base/base-checkbox.vue';
 import TodoListItemEdit from './todo-list-item-edit.vue';
+import TodoListItemDelete from './todo-list-item-delete.vue';
 import { PropType, computed, ref } from 'vue';
 import { Todo } from 'src/modules/todo/todo.interface';
 
@@ -30,9 +31,6 @@ const isEditing = ref(false);
 async function handleEdit() {
   isEditing.value = true;
 }
-function handleUpdated() {
-  isEditing.value = false;
-}
 </script>
 
 <template>
@@ -55,13 +53,11 @@ function handleUpdated() {
         >{{ todo.name }}</plain-vue-text
       >
     </div>
-    <div v-if="!isEditing" class="items-center gap-x-2 hidden group-hover:flex">
+    <div v-if="!isEditing" class="items-center gap-x-2 flex">
       <plain-vue-button v-on:click="handleEdit">
         <pencil-square-icon class="w-4 h-4 text-gray-400" />
       </plain-vue-button>
-      <plain-vue-button>
-        <trash-icon class="w-4 h-4 text-gray-400" />
-      </plain-vue-button>
+      <todo-list-item-delete v-model="todo" />
     </div>
   </div>
 </template>
